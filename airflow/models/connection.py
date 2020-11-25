@@ -109,6 +109,8 @@ class Connection(Base, LoggingMixin):
         ('grpc', 'GRPC Connection'),
         ('yandexcloud', 'Yandex Cloud'),
         ('spark', 'Spark'),
+        ('zeppelin', 'Zeppelin'),
+        ('oss', 'OSS')
     ]
 
     def __init__(
@@ -306,6 +308,9 @@ class Connection(Base, LoggingMixin):
         elif self.conn_type == 'grpc':
             from airflow.contrib.hooks.grpc_hook import GrpcHook
             return GrpcHook(grpc_conn_id=self.conn_id)
+        elif self.conn_type == 'zeppelin':
+            from airflow.contrib.hooks.zeppelin_hook import ZeppelinHook
+            return ZeppelinHook(conn_id=self.conn_id)
         raise AirflowException("Unknown hook type {}".format(self.conn_type))
 
     def __repr__(self):
