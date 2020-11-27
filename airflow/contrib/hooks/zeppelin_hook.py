@@ -23,7 +23,7 @@ class ZeppelinHook(BaseHook):
         if not note_result.is_success:
             raise Exception("Fail to run note, note_result: {}".format(str(note_result)))
         else:
-            logging.info("note {} is executed successfully")
+            logging.info("note {} is executed successfully".format(note_id))
 
 
     
