@@ -20,7 +20,7 @@ class ZeppelinHook(BaseHook):
 
     def run_note(self, note_id, params = {}):
         note_result = self.z_client.execute_note(note_id, params)
-        if not note_result.is_success:
+        if not note_result.is_success():
             raise Exception("Fail to run note, note_result: {}".format(str(note_result)))
         else:
             logging.info("note {} is executed successfully".format(note_id))
