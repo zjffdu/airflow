@@ -204,7 +204,7 @@ if REMOTE_LOGGING:
 
         DEFAULT_LOGGING_CONFIG['handlers'].update(WASB_REMOTE_HANDLERS)
     elif REMOTE_BASE_LOG_FOLDER.startswith('oss://'):
-        WASB_REMOTE_HANDLERS = {
+        OSS_REMOTE_HANDLERS = {
             'task': {
                 'class': 'airflow.utils.log.oss_task_handler.OSSTaskHandler',
                 'formatter': 'airflow',
@@ -214,7 +214,7 @@ if REMOTE_LOGGING:
             },
         }
 
-        DEFAULT_LOGGING_CONFIG['handlers'].update(WASB_REMOTE_HANDLERS)
+        DEFAULT_LOGGING_CONFIG['handlers'].update(OSS_REMOTE_HANDLERS)
     elif ELASTICSEARCH_HOST:
         ELASTICSEARCH_LOG_ID_TEMPLATE = conf.get('elasticsearch', 'LOG_ID_TEMPLATE')
         ELASTICSEARCH_END_OF_LOG_MARK = conf.get('elasticsearch', 'END_OF_LOG_MARK')

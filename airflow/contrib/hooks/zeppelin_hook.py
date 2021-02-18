@@ -8,7 +8,7 @@ class ZeppelinHook(BaseHook):
     def __init__(self, z_conn):
         self.z_conn = z_conn
         zeppelin_url = "http://" + self.z_conn.host + ":" + str(self.z_conn.port)
-        self.client_config = ClientConfig(zeppelin_url)
+        self.client_config = ClientConfig(zeppelin_url, query_interval=5)
         self.z_client = ZeppelinClient(self.client_config)
         # if z_conn.login and z_conn.password:
         #    self.z_client.login(z_conn.login, z_conn.password)
@@ -21,7 +21,7 @@ class ZeppelinHook(BaseHook):
     def run_note(self, note_id, params = {}):
         note_result = self.z_client.execute_note(note_id, params)
         if not note_result.is_success():
-            raise Exception("Fail to run note, note_result: {}".format(str(note_result)))
+            raise Exception("Fail to run note, error message: {}".format(note_result.get_errors()))
         else:
             logging.info("note {} is executed successfully".format(note_id))
 
