@@ -12,12 +12,16 @@ class ZeppelinOperator(BaseOperator):
     def __init__(self,
                  conn_id,
                  note_id,
+                 paragraph_id = None,
                  params={},
+                 orig_note=False,
                  *args,
                  **kwargs):
         super(ZeppelinOperator, self).__init__(*args, **kwargs)
         self.note_id = note_id
+        self.paragraph_id = paragraph_id
         self.params = params
+        self.orig_note = orig_note
         self.z_hook = ZeppelinHook.get_hook(conn_id)
 
     def execute(self, context):
@@ -25,7 +29,10 @@ class ZeppelinOperator(BaseOperator):
         airflow_context_vars = context_to_airflow_vars(context, in_env_var_format=True)
         params.update(airflow_context_vars)
         if self.note_id:
-            self.z_hook.run_note(self.note_id, params)
+            if self.paragraph_id:
+                self.z_hook.run_paragraph(self.note_id, self.paragraph_id, params, self.orig_note)
+            else:
+                self.z_hook.run_note(self.note_id, params, self.orig_note)
         else:
             if not self.interpreter:
                 raise Exception('interpreter is not specified')

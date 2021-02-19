@@ -18,12 +18,19 @@ class ZeppelinHook(BaseHook):
         z_conn = cls.get_connection(conn_id)
         return ZeppelinHook(z_conn=z_conn)
 
-    def run_note(self, note_id, params = {}):
-        note_result = self.z_client.execute_note(note_id, params)
+    def run_note(self, note_id, params = {}, orig_note = False):
+        note_result = self.z_client.execute_note(note_id, params, orig_note)
         if not note_result.is_success():
             raise Exception("Fail to run note, error message: {}".format(note_result.get_errors()))
         else:
             logging.info("note {} is executed successfully".format(note_id))
+
+    def run_paragraph(self, note_id, paragraph_id, params = {}, orig_note = False):
+        paragraph_result = self.z_client.execute_paragraph(note_id, paragraph_id, params = params, orig_note = orig_note)
+        if not paragraph_result.is_success():
+            raise Exception("Fail to run note, error message: {}".format(paragraph_result.get_errors()))
+        else:
+            logging.info("paragraph {} of note {} is executed successfully".format(paragraph_id, note_id))
 
     def run_code(self, interpreter, code, sub_interpreter = '', intp_properties = {}):
         z_session = ZSession(self.client_config, interpreter, intp_properties)
