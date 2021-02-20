@@ -30,7 +30,7 @@ class ZeppelinOperator(BaseOperator):
         params.update(airflow_context_vars)
         if self.note_id:
             if self.paragraph_id:
-                self.z_hook.run_paragraph(self.note_id, self.paragraph_id, params, self.orig_note)
+                self.z_hook.run_paragraph(self.note_id, self.paragraph_id, params, self.orig_note, True)
             else:
                 self.z_hook.run_note(self.note_id, params, self.orig_note)
         else:

@@ -25,8 +25,8 @@ class ZeppelinHook(BaseHook):
         else:
             logging.info("note {} is executed successfully".format(note_id))
 
-    def run_paragraph(self, note_id, paragraph_id, params = {}, orig_note = False):
-        paragraph_result = self.z_client.execute_paragraph(note_id, paragraph_id, params = params, orig_note = orig_note)
+    def run_paragraph(self, note_id, paragraph_id, params = {}, orig_note = False, isolated = False):
+        paragraph_result = self.z_client.execute_paragraph(note_id, paragraph_id, params = params, orig_note = orig_note, isolated = isolated)
         if not paragraph_result.is_success():
             raise Exception("Fail to run note, error message: {}".format(paragraph_result.get_errors()))
         else:
